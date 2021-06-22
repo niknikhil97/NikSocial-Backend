@@ -2,8 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
-router.get("/", function (req, res) {
-  res.send("Welcome Home");
-});
+router.use("/user", require("./users"));
+router.get("/", async (req, res) => {});
 
 module.exports = router;
