@@ -24,3 +24,15 @@ module.exports.authFail = (req, res) => {
     message: "Auth Failed",
   });
 };
+
+
+module.exports.updateProfile = (req, res) => {
+
+  console.log(req.file)
+  console.log(req.body)
+
+
+  return res.status(200).json({
+    message: 'profile Updated'
+  })
+}

@@ -10,16 +10,16 @@ passport.use(
       jwtFromRequest: passportJWT.ExtractJwt.fromAuthHeaderAsBearerToken(),
     },
     async function (jwt_payload, done) {
-      console.log("Here");
+      
       try {
-        console.log("try");
+        
         const user = await UserAuth.findOne({ email: jwt_payload.email });
         if (user) {
-          console.log("user yes");
+          console.log("::User found for login")    
           return done(null, user);
         }
 
-        console.log("user no");
+        console.log("::User not found while loggin in")
         return done(null, false);
       } catch (error) {
         console.log("::**Error while jwt auth", error);
@@ -28,5 +28,8 @@ passport.use(
     }
   )
 );
+
+
+
 
 module.exports = passport;

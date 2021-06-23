@@ -2,6 +2,8 @@ const express = require("express");
 const userController = require("../controllers/UserController");
 const passportLocal = require("../config/passport-local");
 const passportJWT = require("../config/passport-jwt");
+const multer = require('multer')
+const upload = multer({dest: '/uploads'})
 
 const router = express.Router();
 
@@ -14,12 +16,12 @@ router.get(
   }),
   function (req, res) {
     return res.status(200).json({
-      message: "You Are loggen hence can see posts",
-      posts: ["post 1", "post 2", "post 3", "post 4", "post 5"],
+      email: req.body.email
     });
   }
 );
 
+// Auth routes
 router.post("/create-user", userController.createUser);
 router.post(
   "/create-session",
@@ -31,5 +33,11 @@ router.post(
 );
 router.get("/create-token", userController.createToken);
 router.get("/auth-fail", userController.authFail);
+
+// update profile
+router.post('/update-profile', upload.single('avatar'),passportJWT.authenticate("jwt", {
+  failureRedirect: "/user/auth-fail",
+  session: false,
+}), userController.updateProfile)
 
 module.exports = router;
